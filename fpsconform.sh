@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # set -x
 
@@ -8,8 +7,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Folder parameter
 FOLDER="$1"
 
+# Filename parameter
+FILENAME="$2"
+
 # FPS parameter
-FPS="$2"
+FPS="$3"
 
 USAGE="USAGE: bash fps_conform.sh [folder] [framerate]\n  [folder] = location of video files to be converted\n  [framerate] = framerate to conform to (23.976, 24, 25)"
 
@@ -99,7 +101,7 @@ function MUX () {
 }
 
 # Loop to convert all files with mkv extension in current directory
-for INPUT_FILE in "$FOLDER"/*.mp4 "$FOLDER"/*.mkv; do
+for INPUT_FILE in "$FOLDER"/"$FILENAME"; do
   # Get basename of file
   OUTPUT_FILE=$(basename "$INPUT_FILE")
   if [ -f $CONVERTED/$OUTPUT_FILE ]; then
