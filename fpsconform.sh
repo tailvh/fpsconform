@@ -66,16 +66,16 @@ function CONVERT_AUD () {
   echo "$MSG_NOTICE Starting audio conversion"
   
   # aac
-  # ffmpeg -y -v error -i "$1" -c:a aac -filter:a "atempo=$TEMPO" -vn "$OUTPUT_AUD/$OUTPUT_FILE"
+  ffmpeg -y -v error -i "$1" -c:a aac -filter:a "atempo=$TEMPO" -vn "$OUTPUT_AUD/$OUTPUT_FILE"
   
   # Actract audio file
-  ffmpeg -y -v error -i "$1" -c copy -vn "$OUTPUT_AUD/in.wav"
+  # ffmpeg -y -v error -i "$1" -c copy -vn "$OUTPUT_AUD/in.wav"
   
   # Change speed
-  sox "$OUTPUT_AUD/in.wav" "$OUTPUT_AUD/out.wav" -tempo $TEMPO
+  # sox "$OUTPUT_AUD/in.wav" "$OUTPUT_AUD/out.wav" -tempo $TEMPO
   
   # Change audio back
-  ffmpeg -y -v error -i "$OUTPUT_AUD/out.wav" -c copy -vn "$OUTPUT_AUD/$OUTPUT_FILE"
+  # ffmpeg -y -v error -i "$OUTPUT_AUD/out.wav" -c copy -vn "$OUTPUT_AUD/$OUTPUT_FILE"
 }
 
 # Convert subtitles to desired length
