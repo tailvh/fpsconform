@@ -65,7 +65,7 @@ function CONVERT_VID () {
 function CONVERT_AUD () {
   echo "$MSG_NOTICE Starting audio conversion"
   # aac
-  ffmpeg -hwaccel auto -threads 0 -y -v error -i "$1" -c:a aac -filter:a "atempo=$TEMPO" -preset veryfast -vn "$OUTPUT_AUD/$OUTPUT_FILE"
+  ffmpeg -hwaccel auto -threads 0 -y -v error -i "$1" -c:a aac -filter:a "atempo=$TEMPO" -vn "$OUTPUT_AUD/$OUTPUT_FILE"
 }
 
 # Convert subtitles to desired length
