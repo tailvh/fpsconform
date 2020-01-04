@@ -139,12 +139,16 @@ for INPUT_FILE in "$FOLDER"/"$FILENAME"; do
     PASS="false"
     
     # Handle all except already 25fps
-    if [[ "$FPS_IN" == "" ]]; then
+    if [[ "$FPS_IN" == "25" ]]; then
+      echo "$MSG_NOTICE Already 25fps"
+      PASS="true"
+    elif [[ "$FPS_IN" == "25/1" ]]; then
+      echo "$MSG_NOTICE Already 25fps"
       PASS="true"
     else
       FPS_OUT="25p"
       TEMPO=$(bc <<< "scale=10;(25/($FPS_IN))")
-      echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS_OUT}fps with tempo ${TEMPO}"
+      echo "$MSG_NOTICE Converting from ${FPS_IN}fps to 25fps with tempo ${TEMPO}"
     fi
 
     # Do conversion for files not set to pass
