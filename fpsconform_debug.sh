@@ -56,7 +56,8 @@ function CONVERT_VID () {
   echo "$MSG_NOTICE Starting video conversion"
 
   # Get index of video track
-  VID_INDEX=$(ffprobe -v error -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=index "$1")
+  # VID_INDEX=$(result=$(ffprobe -v error -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=index,codec_name,height '/content/drive/My Drive/Source/FILM/A1/bogowie-2014-full.mp4'); echo "${result}" | head -1)
+  VID_INDEX=$(result=$(ffprobe -v error -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=index "$1"); echo "${result}" | head -1)
 
   mkvmerge -q -o "$OUTPUT_VID/$OUTPUT_FILE" --default-duration "$VID_INDEX:$FPS_OUT" -d "$VID_INDEX" -A -S -T "$1"
 }
