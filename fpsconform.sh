@@ -71,10 +71,10 @@ function CONVERT_AUD () {
   # Actract audio file
   # ffmpeg -y -v error -i "$1" -c copy -vn "$OUTPUT_AUD/in.wav"
   
-  # Change speed
+  # # Change speed
   # sox "$OUTPUT_AUD/in.wav" "$OUTPUT_AUD/out.wav" -tempo $TEMPO
   
-  # Change audio back
+  # # Change audio back
   # ffmpeg -y -v error -i "$OUTPUT_AUD/out.wav" -c copy -vn "$OUTPUT_AUD/$OUTPUT_FILE"
 }
 
@@ -137,63 +137,14 @@ for INPUT_FILE in "$FOLDER"/"$FILENAME"; do
 
     # By default take action
     PASS="false"
-
-    # Determine action, tempo
-    if [[ "$FPS_IN" == "24000/1001" ]]; then
-      FPS_IN="23.976"
-      if [[ "$FPS" == "25" ]]; then
-        FPS_OUT="25p"
-        TEMPO="1.042709376"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      elif [[ "$FPS" == "24" ]]; then
-        FPS_OUT="24p"
-        TEMPO="1.001001001"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      else
-        echo -e "$ERR_NO_ACTION"
-        PASS="true"
-      fi
-    elif [[ "$FPS_IN" == "2997/125" ]]; then
-      FPS_IN="23.976"
-      if [[ "$FPS" == "25" ]]; then
-        FPS_OUT="25p"
-        TEMPO="1.042709376"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      elif [[ "$FPS" == "24" ]]; then
-        FPS_OUT="24p"
-        TEMPO="1.001001001"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      else
-        echo -e "$ERR_NO_ACTION"
-        PASS="true"
-      fi
-    elif [[ "$FPS_IN" == "24/1" ]]; then
-      FPS_IN="24"
-      if [[ "$FPS" == "25" ]]; then
-        FPS_OUT="25p"
-        TEMPO="1.041666667"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      else
-        echo -e "$ERR_NO_ACTION"
-        PASS="true"
-      fi
-    elif [[ "$FPS_IN" == "25/1" ]]; then
-      FPS_IN="25"
-      if [[ "$FPS" == "24" ]]; then
-        FPS_OUT="24p"
-        TEMPO="0.96"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      elif [[ "$FPS" == "23.976" ]]; then
-        FPS_OUT="24000/1001p"
-        TEMPO="0.95904"
-        echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS}fps"
-      else
-        echo -e "$ERR_NO_ACTION"
-        PASS="true"
-      fi
-    else
-      echo "$ERR_UNSUPPORTED"
+    
+    # Handle all except already 25fps
+    if [[ "$FPS_IN" == "" ]]; then
       PASS="true"
+    else
+      FPS_OUT="25p"
+      TEMPO=$(bc <<< "scale=10;(25/($FPS_IN))")
+      echo "$MSG_NOTICE Converting from ${FPS_IN}fps to ${FPS_OUT}fps with tempo ${TEMPO}"
     fi
 
     # Do conversion for files not set to pass
