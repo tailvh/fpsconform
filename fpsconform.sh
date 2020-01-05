@@ -100,15 +100,17 @@ function CONVERT_SUB () {
 
 function MUX () {
   echo "$MSG_NOTICE Starting muxing"
-  if [[ "$SUBTITLE_TYPE" == "srt" || "$SUBTITLE_TYPE" == "subrip" && -n "$SUBTITLE_LANG" ]]; then
-    ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -i "$OUTPUT_SUB/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 -map 2:s:0 -metadata:s:2 language="$SUBTITLE_LANG" "$CONVERTED/$OUTPUT_FILE"
-  elif [[ "$SUBTITLE_TYPE" == "srt" || "$SUBTITLE_TYPE" == "subrip" ]]; then
-    ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -i "$OUTPUT_SUB/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 -map 2:s:0 "$CONVERTED/$OUTPUT_FILE"
-  elif [[ -s "$SUBTITLE_EXT" ]]; then
-    ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -i "$OUTPUT_SUB/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 -map 2:s:0 "$CONVERTED/$OUTPUT_FILE"
-  else
-    ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 "$CONVERTED/$OUTPUT_FILE"
-  fi
+  # Mux with nonsub
+  ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 "$CONVERTED/$OUTPUT_FILE"
+  # if [[ "$SUBTITLE_TYPE" == "srt" || "$SUBTITLE_TYPE" == "subrip" && -n "$SUBTITLE_LANG" ]]; then
+  #   ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -i "$OUTPUT_SUB/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 -map 2:s:0 -metadata:s:2 language="$SUBTITLE_LANG" "$CONVERTED/$OUTPUT_FILE"
+  # elif [[ "$SUBTITLE_TYPE" == "srt" || "$SUBTITLE_TYPE" == "subrip" ]]; then
+  #   ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -i "$OUTPUT_SUB/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 -map 2:s:0 "$CONVERTED/$OUTPUT_FILE"
+  # elif [[ -s "$SUBTITLE_EXT" ]]; then
+  #   ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -i "$OUTPUT_SUB/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 -map 2:s:0 "$CONVERTED/$OUTPUT_FILE"
+  # else
+  #   ffmpeg -y -v error -i "$OUTPUT_VID/$OUTPUT_FILE" -i "$OUTPUT_AUD/$OUTPUT_FILE" -c copy -map 0:v:0 -map 1:a:0 "$CONVERTED/$OUTPUT_FILE"
+  # fi
 }
 
 # Loop to convert all files with mkv extension in current directory
