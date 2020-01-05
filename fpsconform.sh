@@ -166,7 +166,10 @@ for INPUT_FILE in "$FOLDER"/"$FILENAME"; do
       # Delete intermediary files to save space
       rm -f "$OUTPUT_VID/$INPUT_FILE"
       rm -f "$OUTPUT_AUD/$INPUT_FILE"
-    fi
+    # When not conform FPS
+    else
+      cp -rf "$INPUT_FILE" "$CONVERTED/$OUTPUT_FILE"
+    fi 
   fi
 done
 
